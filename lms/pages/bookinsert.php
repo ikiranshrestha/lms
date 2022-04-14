@@ -1,8 +1,21 @@
 <?php
  if(isset($_POST['submit']) && $_POST['submit'] == 'submit'){
     unset($_POST['submit']);
-    $obj->Insert("books",$_POST);
-    
+    $lid = $obj->Insert("books",$_POST);
+
+    $no_of_copies = $_POST['no_of_books'];
+    $_BOOK_COPIES = array();
+    $bcid = array();
+    for($i=0; $i< $no_of_copies; $i++){
+       $timestamp = new DateTime();
+       $timestamp = $timestamp->getTimestamp();
+      //  $bcid[$i] = (56 .$timestamp + $i);
+       $bcid[$i] = (int) (substr($timestamp, -6) + $i . $lid);
+
+      ($_BOOK_COPIES = array("bid" => $lid, "bcid_no" => $bcid[$i], "created_date" => date('Y-m-d'), "updated_on" => null));
+       $obj->Insert("book_copies", $_BOOK_COPIES);
+
+    }
 
     echo "<script>alert('data inserted successfully!!')</script>";
  }

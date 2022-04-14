@@ -28,6 +28,7 @@ class Database
 
     public function Insert($tableName = '', $data = array())
     {
+        $lastInsertedId = '';
         if (empty($tableName) || empty($data)) throw new PDOException('Table name and data is required');
 
         $columns = implode(',', array_keys($data));
@@ -45,7 +46,8 @@ class Database
         $preStatement = $this->_connection->prepare($query);
         try {
             $preStatement->execute(array_values($data));
-            return $this->_connection->lastInsertId();
+            $lastInsertedId = $this->_connection->lastInsertId();;
+            return $lastInsertedId;
         } catch (PDOException $exception) {
             die($exception->getMessage());
         }

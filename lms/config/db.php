@@ -69,6 +69,7 @@ class Database
         $mergeData = array_merge(array_values($data), $bindValue);
         try {
             return $preStatement->execute($mergeData);
+            // return $query;
         } catch (PDOException $exception) {
             die($exception->getMessage());
         }
